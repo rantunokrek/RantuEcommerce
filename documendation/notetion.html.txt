@@ -1,0 +1,33 @@
+composer create-project laravel/laravel:^8.0 MyEcommerce
+ 
+cd MyEcommerce
+ 
+php artisan serve
+===========================
+MyEcommerce
+https://yajrabox.com/docs/laravel-datatables/master/installation
+composer require yajra/laravel-datatables-oracle:"^9.0"
+'providers' => [
+    // ...
+    Yajra\DataTables\DataTablesServiceProvider::class,
+],
+php artisan vendor:publish --tag=datatables
+=======================================
+https://image.intervention.io/v2/introduction/installation
+composer require intervention/image:^2
+providers:: Intervention\Image\ImageServiceProvider::class
+ aliases  :: 'Image' => Intervention\Image\Facades\Image::class
+  php artisan vendor:publish --provider="Intervention\Image\ImageServiceProviderLaravelRecent"
+
+=======================================\
+https://packagist.org/packages/bumbummen99/shoppingcart
+composer require bumbummen99/shoppingcart
+php artisan vendor:publish --provider="Gloudemans\Shoppingcart\ShoppingcartServiceProvider" --tag="config"
+
+composer require laravel/ui
+// Generate login / registration scaffolding...
+php artisan ui bootstrap --auth
+npm install
+npm run dev
+// or
+npm install && npm run dev
