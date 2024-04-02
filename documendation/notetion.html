@@ -1,0 +1,77 @@
+composer create-project laravel/laravel:^8.0 MyEcommerce
+ 
+cd MyEcommerce
+ 
+php artisan serve
+===========================
+MyEcommerce
+https://yajrabox.com/docs/laravel-datatables/master/installation
+composer require yajra/laravel-datatables-oracle:"^9.0"
+'providers' => [
+    // ...
+    Yajra\DataTables\DataTablesServiceProvider::class,
+],
+php artisan vendor:publish --tag=datatables
+=======================================
+https://image.intervention.io/v2/introduction/installation
+composer require intervention/image:^2
+providers:: Intervention\Image\ImageServiceProvider::class
+ aliases  :: 'Image' => Intervention\Image\Facades\Image::class
+  php artisan vendor:publish --provider="Intervention\Image\ImageServiceProviderLaravelRecent"
+
+=======================================\
+https://packagist.org/packages/bumbummen99/shoppingcart
+composer require bumbummen99/shoppingcart
+php artisan vendor:publish --provider="Gloudemans\Shoppingcart\ShoppingcartServiceProvider" --tag="config"
+
+composer require laravel/ui
+// Generate login / registration scaffolding...
+php artisan ui bootstrap --auth
+npm install
+npm run dev
+// or
+npm install && npm run dev
+
+// php artisan migrate
+php artisan migrate
+
+// multi authentication
+1:: php artisan make:middleware IsAdmin
+
+
+2:: middleware IsAdmin যদি তুমি এডমিন হও তাহলে নেক্সটে যাও
+
+   public function handle(Request $request, Closure $next)
+    {
+        if (auth()->user()->is_admin == 1) {
+            return $next($request);
+        }
+        return redirect()->route('home')->with('error','You are not Admin');
+    }
+3:: kernel
+ 'is_admin' => \App\Http\Middleware\IsAdmin::class,	
+	
+4:: route if add new route folder Admin
+Route::get('/admin/home', [App\Http\Controllers\HomeController::class, 'admin'])->name('admin.home')
+->middleware('is_admin');
+5:: routeServiceprovider
+ //for admin route
+            Route::middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/admin.php'));
+				
+6:: // LoginController custome route
+public function login(Request $request)
+{
+  $validated = $request->validate([
+    'email' => 'required|email',
+    'password' => 'required',
+  ]);
+  if(auth()->attempt(array('email' =>$request->email ,'password' =>$request->password))) {
+   if(auth()->user()->is_admin == 1) {
+   return redirect()->route('admin.home');
+   }else{
+    return redirect()->route('home');
+   }
+  }
+}
