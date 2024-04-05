@@ -54,4 +54,14 @@ public function login(Request $request)
   }
 }
 
+public function adminLogin()
+{
+
+  return view('auth.adminLogin');
+}
+
+
+
+
+
 }
