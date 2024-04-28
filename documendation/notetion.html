@@ -75,3 +75,67 @@ public function login(Request $request)
    }
   }
 }
+
+// Add t\sweet alert and tostrr
+
+
+
+// :: php artisan make:controller Admin/AdminController
+
+
+// Admin name show {{Auth::user()->name}}
+// create a table categories
+php artisan make:migration create_categories_table
+
+ $table->id();
+            $table->string('category_name')->nullable();
+            $table->string('category_slug')->nullable();
+            $table->timestamps();
+
+ php artisan migrate
+ 
+ // php artisan make:controller Admin/CategoryController
+ 
+ 1: php artisan make:model Category
+ 
+ 
+ // database check 
+   public function index()
+   {
+       $data =DB::table('categories')->get();
+       return response()->json($data);
+    }
+ // 
+  //quiery builder
+       $data=array();
+       $data['category_name']=$request->category_name;
+       $data['category_slug']=Str::slug($request->category_name, '-');
+       dd($data);
+	   
+	   
+	   
+// Data insert করার দুইটা নিয়ম
+public function store(Request $request)
+   {    
+    $validated = $request->validate([
+    'category_name' => 'required|unique:categories|max:55',
+   
+       ]);
+
+   //::::: method 1
+   //quiery builder
+    //    $data=array();
+    //    $data['category_name']=$request->category_name;
+    //    $data['category_slug']=Str::slug($request->category_name, '-');
+    //   DB::table('categories')->insert($data);
+  //::::: method 2
+     Category::insert([
+        'category_name'=> $request->category_name,
+        'category_slug'=> Str::slug($request->category_name,'-'),
+     ]);
+
+
+      $notification=array('messege' => 'Category Inserted!','alert-type' => 'success');
+      return redirect()->back()->with($notification);
+
+    }	   
